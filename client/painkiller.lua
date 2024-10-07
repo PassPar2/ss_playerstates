@@ -3,7 +3,7 @@ local painDisabled = false
 local function disablePain()
   if not painDisabled then
     painDisabled = true
-    exports.ss_medical:DisableDamageEffects()
+    exports.qbx_medical:DisableDamageEffects()
     exports.qbx_core:Notify('Painkillers effects have started', 'info')
   end
 end
@@ -11,7 +11,7 @@ end
 local function enablePain()
   if painDisabled then
     painDisabled = false
-    exports.ss_medical:EnableDamageEffects()
+    exports.qbx_medical:EnableDamageEffects()
     exports.qbx_core:Notify('Painkillers effects have ended', 'info')
   end
 end
