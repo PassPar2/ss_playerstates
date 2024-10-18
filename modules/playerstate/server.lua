@@ -8,6 +8,7 @@ function SVPlayerState:new(options)
   instance.id = options.id
   instance.label = options.label
   instance.permanent = options.permanent
+  instance.values = {}
   instance.valueConfig = options.value
   instance.decayConfig = options.decay
   return instance
@@ -33,6 +34,7 @@ function SVPlayerState:setPlayerState(playerSrc, value)
   local playerEntity = Player(playerSrc)
   if not playerEntity then return false end
   local newValue = self:validateValue(value)
+  self.values[playerSrc] = newValue
   playerEntity.state:set(self.id, newValue, true)
   if self.permanent then
     player.Functions.SetMetaData(self.id, newValue)
@@ -61,6 +63,7 @@ end
 function SVPlayerState:destroyPlayerState(playerSrc)
   local playerEntity = Player(playerSrc)
   if not playerEntity then return end
+  self.values[playerSrc] = nil
   playerEntity.state:set(self.id, nil, true)
 end
 
@@ -74,6 +77,7 @@ function SVPlayerState:initPlayerState(playerSrc)
   if self.permanent then
     stateValue = self:validateValue(player.Functions.GetMetaData(self.id))
   end
+  self.values[playerSrc] = stateValue
   playerEntity.state:set(self.id, stateValue, true)
 end
 
@@ -88,6 +92,13 @@ function SVPlayerState:startDecayLoop()
       end
     end
   end)
+end
+
+--- @param playerSrc number
+--- @param newValue number
+function SVPlayerState:correctValue(playerSrc, newValue)
+  if self.values[playerSrc] == newValue then return end
+  self:setPlayerState(playerSrc, newValue)
 end
 
 return SVPlayerState

@@ -69,6 +69,7 @@
 --- @field id string
 --- @field label string
 --- @field permanent boolean
+--- @field values table<number, number>
 --- @field valueConfig PlayerStateValueConfig
 --- @field decayConfig PlayerStateDecayConfig?
 

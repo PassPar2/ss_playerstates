@@ -29,6 +29,18 @@ AddEventHandler("QBCore:Server:OnPlayerUnload", function ()
   stateManager:resetPlayerStates(src)
 end)
 
+RegisterNetEvent('qbx_core:server:onSetMetaData', function(key, _, newValue, source)
+  if not key or not newValue or not source then return end
+  stateManager:correctStateValue(key, newValue, source)
+end)
+
+AddStateBagChangeHandler('', '', function(bagName, key, value)
+  if not bagName or not key or not value then return end
+  local playerSrc = GetPlayerFromStateBagName(bagName)
+  if not playerSrc then return end
+  stateManager:correctStateValue(key, value, playerSrc)
+end)
+
 AddEventHandler('onResourceStart', function(resourceName)
   if resourceName == GetCurrentResourceName() then
     stateManager:initAllPlayersStates()

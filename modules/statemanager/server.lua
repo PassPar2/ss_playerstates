@@ -106,4 +106,14 @@ function SVStateManager:setState(src, state, value)
   return stateInstance:setPlayerState(src, value)
 end
 
+--- @param key any
+--- @param value any
+--- @param src any
+function SVStateManager:correctStateValue(key, value, src)
+  if not key or not value or not src then return end
+  local stateInstance = self.states[key]
+  if not stateInstance then return end
+  stateInstance:correctValue(src, value)
+end
+
 return SVStateManager
